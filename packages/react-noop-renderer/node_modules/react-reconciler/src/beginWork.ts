@@ -9,6 +9,7 @@ import {
 } from './workTags';
 import { processUpdateQueue, UpdateQueue } from './updateQueue';
 import { mountChildFibers, reconcileChildFibers } from './childFibers';
+import { renderWithHooks } from './fiberHooks';
 
 export const beginWork = (wip: FiberNode) => {
 	// 比较，返回子fiberNode
@@ -19,8 +20,8 @@ export const beginWork = (wip: FiberNode) => {
 			return updateHostComponent(wip);
 		case HostText:
 			return null;
-		// case FunctionComponent:
-		// 	return updateFunctionComponent(wip);
+		case FunctionComponent:
+			return updateFunctionComponent(wip);
 		// case Fragment:
 		// 	return updateFragment(wip);
 		default:
@@ -45,6 +46,12 @@ function updateHostRoot(wip: FiberNode) {
 function updateHostComponent(wip: FiberNode) {
 	const nextProps = wip.pendingProps;
 	const nextChildren = nextProps.children;
+	reconcileChildren(wip, nextChildren);
+	return wip.child;
+}
+
+function updateFunctionComponent(wip: FiberNode) {
+	const nextChildren = renderWithHooks(wip);
 	reconcileChildren(wip, nextChildren);
 	return wip.child;
 }

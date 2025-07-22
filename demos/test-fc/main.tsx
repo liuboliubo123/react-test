@@ -160,13 +160,30 @@ import ReactDOM from 'react-dom/client';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-const jsx = (
-	<div>
-		<span>big-react</span>
-	</div>
-);
-debugger;
-root.render(jsx);
+// const jsx = (
+// 	<div>
+// 		<span>big-react</span>
+// 	</div>
+// );
+
+function App() {
+	return (
+		<div>
+			<Child></Child>
+		</div>
+	);
+}
+
+function Child() {
+	return (
+		<div>
+			<span>big-react 1233 child</span>
+		</div>
+	);
+}
+
+// debugger;
+root.render(<App></App>);
 // 第一次创建:
 // root 没有标记
 // app 打了标记 flags=1
