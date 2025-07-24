@@ -47,6 +47,7 @@ function renderRoot(root: FiberRootNode) {
 		}
 	} while (true);
 
+	// 内存中的那颗fiber树
 	const finishedWork = root.current.alternate;
 	root.finishedWork = finishedWork;
 	commitRoot(root);

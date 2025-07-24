@@ -86,20 +86,21 @@ import ReactDOM from 'react-dom/client';
 // 	);
 // }
 
-// function App() {
-// 	const [num, setNum] = useState(100);
-// 	return (
-// 		<div
-// 			onClickCapture={() => {
-// 				setNum((n) => n + 1);
-// 				setNum((n) => n + 2);
-// 				setNum((n) => n + 3);
-// 			}}
-// 		>
-// 			<div>{num}</div>
-// 		</div>
-// 	);
-// }
+function App() {
+	const [num, setNum] = useState(100);
+
+	return (
+		<div
+			onClickCapture={() => {
+				setNum((n) => n + 1);
+				// setNum((n) => n + 2);
+				// setNum((n) => n + 3);
+			}}
+		>
+			<div>{num}</div>
+		</div>
+	);
+}
 
 // useEffect 测试用例
 // function App() {
@@ -166,21 +167,21 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 // 	</div>
 // );
 
-function App() {
-	return (
-		<div>
-			<Child></Child>
-		</div>
-	);
-}
+// function App() {
+// 	return (
+// 		<div>
+// 			<Child></Child>
+// 		</div>
+// 	);
+// }
 
-function Child() {
-	return (
-		<div>
-			<span>big-react 1233 child</span>
-		</div>
-	);
-}
+// function Child() {
+// 	return (
+// 		<div>
+// 			<span>big-react 1233 child</span>
+// 		</div>
+// 	);
+// }
 
 // debugger;
 root.render(<App></App>);

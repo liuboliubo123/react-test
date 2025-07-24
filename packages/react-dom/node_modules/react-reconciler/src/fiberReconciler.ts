@@ -8,12 +8,13 @@ import {
 } from './updateQueue';
 import { HostRoot } from './workTags';
 import { scheduleUpdateOnFiber } from './workLoop';
-import { requestUpdateLane } from './fiberLanes';
+// import { requestUpdateLane } from './fiberLanes';
 import { ReactElementType } from 'shared/ReactTypes';
 
 export function createContainer(container: Container) {
 	// 为挂载点创建fiber
 	const hostRootFiber = new FiberNode(HostRoot, {}, null);
+	// 给容器和hostRootFiber建立关联关系
 	const root = new FiberRootNode(container, hostRootFiber);
 	hostRootFiber.updateQueue = createUpdateQueue();
 	return root;

@@ -13,7 +13,9 @@ import { Container } from 'hostConfig';
 // import { Effect } from './fiberHooks';
 
 export class FiberNode {
+	// 元素类型
 	type: any;
+	// 组件对象类型
 	tag: WorkTag;
 	pendingProps: Props;
 	key: Key;
@@ -58,6 +60,7 @@ export class FiberNode {
 		this.memoizedProps = null;
 		this.memoizedState = null;
 		this.updateQueue = null;
+		// 连体婴儿 双缓存机制
 		this.alternate = null;
 		// 副作用
 		// 当前节点的改动(标记)
