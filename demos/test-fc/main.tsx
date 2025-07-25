@@ -29,14 +29,14 @@ import ReactDOM from 'react-dom/client';
 // 				console.log('1233');
 // 			}}
 // 		>
-// 			<div
-// 				onClick={(e) => {
-// 					// e.stopPropagation();
-// 					setNum((n) => n + 1);
-// 				}}
-// 			>
-// 				{num}
-// 			</div>
+// <div
+// 	onClick={(e) => {
+// 		// e.stopPropagation();
+// 		setNum((n) => n + 1);
+// 	}}
+// >
+// 	{num}
+// </div>
 // 		</div>
 // 	);
 // }
@@ -86,21 +86,21 @@ import ReactDOM from 'react-dom/client';
 // 	);
 // }
 
-function App() {
-	const [num, setNum] = useState(100);
+// function App() {
+// 	const [num, setNum] = useState(100);
 
-	return (
-		<div
-			onClickCapture={() => {
-				setNum((n) => n + 1);
-				// setNum((n) => n + 2);
-				// setNum((n) => n + 3);
-			}}
-		>
-			<div>{num}</div>
-		</div>
-	);
-}
+// 	return (
+// 		<div
+// 			onClickCapture={() => {
+// 				setNum((n) => n + 1);
+// 				// setNum((n) => n + 2);
+// 				// setNum((n) => n + 3);
+// 			}}
+// 		>
+// 			<div>{num}</div>
+// 		</div>
+// 	);
+// }
 
 // useEffect 测试用例
 // function App() {
@@ -182,6 +182,21 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 // 		</div>
 // 	);
 // }
+
+function App() {
+	const [num, setNum] = useState(100);
+	window.setNum = setNum;
+
+	return num === 3 ? <div>{num}</div> : <Child></Child>;
+}
+
+function Child() {
+	return (
+		<div>
+			<span>big-react 1233 child</span>
+		</div>
+	);
+}
 
 // debugger;
 root.render(<App></App>);
