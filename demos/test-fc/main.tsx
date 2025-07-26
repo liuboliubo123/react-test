@@ -45,24 +45,24 @@ import ReactDOM from 'react-dom/client';
 // 	return <span>big-react</span>;
 // }
 
-// function App() {
-// 	const [num, setNum] = useState(100);
+function App() {
+	const [num, setNum] = useState(100);
 
-// 	const arr =
-// 		num % 2 === 0
-// 			? [<li key={'1'}>1</li>, <li key={'2'}>2</li>, <li key={'3'}>3</li>]
-// 			: [<li key={'3'}>3</li>, <li key={'2'}>2</li>, <li key={'1'}>1</li>];
-// 	// const arr = [<li key="3">3</li>, <li key="2">2</li>, <li key="1">1</li>];
-// 	return (
-// 		<ul
-// 			onClickCapture={() => {
-// 				setNum((n) => n + 1);
-// 			}}
-// 		>
-// 			{arr}
-// 		</ul>
-// 	);
-// }
+	const arr =
+		num % 2 === 0
+			? [<li key={'1'}>1</li>, <li key={'2'}>2</li>, <li key={'3'}>3</li>]
+			: [<li key={'3'}>3</li>, <li key={'2'}>2</li>, <li key={'1'}>1</li>];
+	// const arr = [<li key="3">3</li>, <li key="2">2</li>, <li key="1">1</li>];
+	return (
+		<ul
+			onClickCapture={() => {
+				setNum((n) => n + 1);
+			}}
+		>
+			{arr}
+		</ul>
+	);
+}
 
 // function App() {
 // 	const [num, setNum] = useState(100);
@@ -183,12 +183,36 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 // 	);
 // }
 
-function App() {
-	const [num, setNum] = useState(100);
-	window.setNum = setNum;
+// 单节点的update
+// function App() {
+// 	const [num, setNum] = useState(100);
+// 	window.setNum = setNum;
 
-	return num === 3 ? <div>{num}</div> : <Child></Child>;
-}
+// 	return num === 3 ? <div>{num}</div> : <Child></Child>;
+// }
+
+// function Child() {
+// 	return (
+// 		<div>
+// 			<span>big-react 1233 child</span>
+// 		</div>
+// 	);
+// }
+
+// 事件系统测试案例
+// function App() {
+// 	const [num, setNum] = useState(100);
+
+// 	return (
+// 		<div
+// 			onClick={() => {
+// 				setNum(3);
+// 			}}
+// 		>
+// 			{num === 3 ? <div>{num}</div> : <Child></Child>}
+// 		</div>
+// 	);
+// }
 
 function Child() {
 	return (

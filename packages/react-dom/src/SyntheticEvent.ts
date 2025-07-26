@@ -94,10 +94,10 @@ function dispatchEvent(container: Container, eventType: string, e: Event) {
 function triggerEventFlow(paths: EventCallback[], se: SyntheticEvent) {
 	for (let i = 0; i < paths.length; i++) {
 		const callback = paths[i];
-		// callback.call(null, se);
-		unstable_runWithPriority(eventTypeToSchdulerPriority(se.type), () => {
-			callback.call(null, se);
-		});
+		callback.call(null, se);
+		// unstable_runWithPriority(eventTypeToSchdulerPriority(se.type), () => {
+		// 	callback.call(null, se);
+		// });
 
 		if (se.__stopPropagation) {
 			break;

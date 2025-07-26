@@ -126,6 +126,7 @@ function getHostSibling(fiber: FiberNode) {
 		while (node.tag !== HostText && node.tag !== HostComponent) {
 			// 向下遍历
 			if ((node.flags & Placement) !== NoFlags) {
+				// 不稳定的兄弟节点
 				continue findSibling;
 			}
 			if (node.child === null) {
