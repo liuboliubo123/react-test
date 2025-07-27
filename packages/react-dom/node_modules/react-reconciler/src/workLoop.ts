@@ -54,6 +54,7 @@ function renderRoot(root: FiberRootNode) {
 }
 
 function workLoop() {
+	// debugger;
 	while (workInProgress !== null) {
 		performUnitOfWork(workInProgress);
 	}

@@ -7,6 +7,7 @@ import {
 } from 'hostConfig';
 import { FiberNode } from './fiber';
 import {
+	Fragment,
 	FunctionComponent,
 	HostComponent,
 	HostRoot,
@@ -29,7 +30,7 @@ export const completeWork = (wip: FiberNode) => {
 				// 1. props是否变化 {onClick: xx} {onClick: xxx}
 				// 2. 变了 Update flag
 				// className style
-				// markUpdate(wip);
+				markUpdate(wip);
 			} else {
 				// mount
 				// 1. 构建DOM
@@ -57,6 +58,7 @@ export const completeWork = (wip: FiberNode) => {
 			bubbleProperties(wip);
 			return null;
 		case HostRoot:
+		case Fragment:
 		case FunctionComponent:
 			bubbleProperties(wip);
 			return null;

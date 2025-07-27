@@ -22,14 +22,20 @@ export const beginWork = (wip: FiberNode) => {
 			return null;
 		case FunctionComponent:
 			return updateFunctionComponent(wip);
-		// case Fragment:
-		// 	return updateFragment(wip);
+		case Fragment:
+			return updateFragment(wip);
 		default:
 			console.log('开发环境没有实现的类型');
 			break;
 	}
 	return null;
 };
+
+function updateFragment(wip: FiberNode) {
+	const nextChildren = wip.pendingProps;
+	reconcileChildren(wip, nextChildren);
+	return wip.child;
+}
 
 function updateHostRoot(wip: FiberNode) {
 	const baseState = wip.memoizedState;

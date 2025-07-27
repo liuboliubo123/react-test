@@ -45,46 +45,53 @@ import ReactDOM from 'react-dom/client';
 // 	return <span>big-react</span>;
 // }
 
-function App() {
-	const [num, setNum] = useState(100);
-
-	const arr =
-		num % 2 === 0
-			? [<li key={'1'}>1</li>, <li key={'2'}>2</li>, <li key={'3'}>3</li>]
-			: [<li key={'3'}>3</li>, <li key={'2'}>2</li>, <li key={'1'}>1</li>];
-	// const arr = [<li key="3">3</li>, <li key="2">2</li>, <li key="1">1</li>];
-	return (
-		<ul
-			onClickCapture={() => {
-				setNum((n) => n + 1);
-			}}
-		>
-			{arr}
-		</ul>
-	);
-}
-
+// 多节点diff
 // function App() {
 // 	const [num, setNum] = useState(100);
+
 // 	const arr =
 // 		num % 2 === 0
 // 			? [<li key={'1'}>1</li>, <li key={'2'}>2</li>, <li key={'3'}>3</li>]
 // 			: [<li key={'3'}>3</li>, <li key={'2'}>2</li>, <li key={'1'}>1</li>];
+// 	// const arr = [<li key="3">3</li>, <li key="2">2</li>, <li key="1">1</li>];
 // 	return (
-// 		<div
+// 		<ul
 // 			onClickCapture={() => {
 // 				setNum((n) => n + 1);
 // 			}}
 // 		>
-// 			{/* <>
-// 				<div>123</div>
-// 				<div>456</div>
-// 			</> */}
-// 			<div>789</div>
 // 			{arr}
-// 		</div>
+// 		</ul>
 // 	);
 // }
+
+// fragment
+function App() {
+	const [num, setNum] = useState(100);
+	const arr =
+		num % 2 === 0
+			? [<li key={'1'}>1</li>, <li key={'2'}>2</li>, <li key={'3'}>3</li>]
+			: [<li key={'3'}>3</li>, <li key={'2'}>2</li>, <li key={'1'}>1</li>];
+	return (
+		<div
+			onClickCapture={() => {
+				setNum((n) => n + 1);
+			}}
+		>
+			{num % 2 === 0 ? (
+				<div>100</div>
+			) : (
+				<>
+					<div>123</div>
+					<div>456</div>
+				</>
+			)}
+
+			{/* <div>789</div>
+			{arr} */}
+		</div>
+	);
+}
 
 // function App() {
 // 	const [num, setNum] = useState(100);

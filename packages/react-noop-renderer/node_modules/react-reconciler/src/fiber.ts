@@ -149,3 +149,8 @@ export function createFiberFromElement(element: ReactElementType): FiberNode {
 	fiber.type = type;
 	return fiber;
 }
+
+export function createFiberFromFragment(elements: any[], key: Key): FiberNode {
+	const fiber = new FiberNode(Fragment, elements, key);
+	return fiber;
+}
