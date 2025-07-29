@@ -10,6 +10,7 @@ import { HostRoot } from './workTags';
 import { scheduleUpdateOnFiber } from './workLoop';
 // import { requestUpdateLane } from './fiberLanes';
 import { ReactElementType } from 'shared/ReactTypes';
+import { requestUpdateLane } from './fiberLanes';
 
 export function createContainer(container: Container) {
 	// 为挂载点创建fiber
@@ -25,11 +26,12 @@ export function updateContainer(
 	root: FiberRootNode
 ) {
 	const hostRootFiber = root.current;
-	const update = createUpdate<ReactElementType | null>(element);
+	const lane = requestUpdateLane();
+	const update = createUpdate<ReactElementType | null>(element, lane);
 	enqueueUpdate(
 		hostRootFiber.updateQueue as UpdateQueue<ReactElementType | null>,
 		update
 	);
-	scheduleUpdateOnFiber(hostRootFiber);
+	scheduleUpdateOnFiber(hostRootFiber, lane);
 	return element;
 }

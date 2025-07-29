@@ -66,48 +66,49 @@ import ReactDOM from 'react-dom/client';
 // }
 
 // fragment
-function App() {
-	const [num, setNum] = useState(100);
-	const arr =
-		num % 2 === 0
-			? [<li key={'1'}>1</li>, <li key={'2'}>2</li>, <li key={'3'}>3</li>]
-			: [<li key={'3'}>3</li>, <li key={'2'}>2</li>, <li key={'1'}>1</li>];
-	return (
-		<div
-			onClickCapture={() => {
-				setNum((n) => n + 1);
-			}}
-		>
-			{num % 2 === 0 ? (
-				<div>100</div>
-			) : (
-				<>
-					<div>123</div>
-					<div>456</div>
-				</>
-			)}
-
-			{/* <div>789</div>
-			{arr} */}
-		</div>
-	);
-}
-
 // function App() {
 // 	const [num, setNum] = useState(100);
-
+// 	const arr =
+// 		num % 2 === 0
+// 			? [<li key={'1'}>1</li>, <li key={'2'}>2</li>, <li key={'3'}>3</li>]
+// 			: [<li key={'3'}>3</li>, <li key={'2'}>2</li>, <li key={'1'}>1</li>];
 // 	return (
 // 		<div
 // 			onClickCapture={() => {
 // 				setNum((n) => n + 1);
-// 				// setNum((n) => n + 2);
-// 				// setNum((n) => n + 3);
 // 			}}
 // 		>
-// 			<div>{num}</div>
+// 			{num % 2 === 0 ? (
+// 				<div>100</div>
+// 			) : (
+// 				<>
+// 					<div>123</div>
+// 					<div>456</div>
+// 				</>
+// 			)}
+
+// 			{/* <div>789</div>
+// 			{arr} */}
 // 		</div>
 // 	);
 // }
+
+// 批处理
+function App() {
+	const [num, setNum] = useState(100);
+
+	return (
+		<div
+			onClickCapture={() => {
+				setNum((n) => n + 1);
+				setNum((n) => n + 1);
+				setNum((n) => n + 1);
+			}}
+		>
+			<div>{num}</div>
+		</div>
+	);
+}
 
 // useEffect 测试用例
 // function App() {
