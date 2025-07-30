@@ -6,16 +6,25 @@ import {
 	Instance,
 	removeChild
 } from 'hostConfig';
-import { FiberNode, FiberRootNode } from './fiber';
+import { FiberNode, FiberRootNode, PendingPassiveEffects } from './fiber';
 import {
 	ChildDeletion,
+	Flags,
 	MutationMask,
 	NoFlags,
+	PassiveEffect,
 	PassiveMask,
 	Placement,
 	Update
 } from './fiberFlags';
-import { HostComponent, HostRoot, HostText } from './workTags';
+import {
+	FunctionComponent,
+	HostComponent,
+	HostRoot,
+	HostText
+} from './workTags';
+import { Effect, FCUpdateQueue } from './fiberHooks';
+import { HookHasEffect } from './hookEffectTags';
 
 let nextEffect: FiberNode | null = null;
 export const commitMutationEffects = (
@@ -71,12 +80,77 @@ const commitMutationEffectsOnFiber = (
 		}
 		finishedWork.flags &= ~ChildDeletion;
 	}
-	// if ((flags & PassiveEffect) !== NoFlags) {
-	// 	// 收集回调
-	// 	commitPassiveEffect(finishedWork, root, 'update');
-	// 	finishedWork.flags &= ~PassiveEffect;
-	// }
+	if ((flags & PassiveEffect) !== NoFlags) {
+		// 收集回调
+		commitPassiveEffect(finishedWork, root, 'update');
+		finishedWork.flags &= ~PassiveEffect;
+	}
 };
+
+// 收集依赖
+function commitPassiveEffect(
+	fiber: FiberNode,
+	root: FiberRootNode,
+	type: keyof PendingPassiveEffects
+) {
+	// update unmount
+	if (
+		fiber.tag !== FunctionComponent ||
+		(type === 'update' && (fiber.flags & PassiveEffect) === NoFlags)
+	) {
+		return;
+	}
+
+	const updateQueue = fiber.updateQueue as FCUpdateQueue<any>;
+
+	if (updateQueue !== null) {
+		if (updateQueue.lastEffect === null && __DEV__) {
+			console.error('当FC存在PassiveEffect flag时，不应该不存在effect');
+		}
+		root.pendingPassiveEffects[type].push(updateQueue.lastEffect as Effect);
+	}
+}
+
+export function commitHookEffectListUnmount(flags: Flags, lastEffect: Effect) {
+	commitHookEffectList(flags, lastEffect, (effect) => {
+		const destroy = effect.destroy;
+		if (typeof destroy === 'function') {
+			destroy();
+		}
+		effect.tag &= ~HookHasEffect;
+	});
+}
+
+export function commitHookEffectListDestroy(flags: Flags, lastEffect: Effect) {
+	commitHookEffectList(flags, lastEffect, (effect) => {
+		const destroy = effect.destroy;
+		if (typeof destroy === 'function') {
+			destroy();
+		}
+	});
+}
+export function commitHookEffectListCreate(flags: Flags, lastEffect: Effect) {
+	commitHookEffectList(flags, lastEffect, (effect) => {
+		const create = effect.create;
+		if (typeof create === 'function') {
+			effect.destroy = create();
+		}
+	});
+}
+function commitHookEffectList(
+	flags: Flags,
+	lastEffect: Effect,
+	callback: (effect: Effect) => void
+) {
+	let effect = lastEffect.next as Effect;
+
+	do {
+		if ((effect.tag & flags) === flags) {
+			callback(effect);
+		}
+		effect = effect.next as Effect;
+	} while (effect !== lastEffect.next);
+}
 
 const commitPlacement = (finishedWork: FiberNode) => {
 	console.warn('执行Placement操作', finishedWork);
@@ -200,12 +274,12 @@ function commitDeletion(childToDelete: FiberNode, root: FiberRootNode) {
 			case HostText:
 				recordHostChildrenToDelete(rootChildrenToDelete, unmountFiber);
 				return;
-			// case FunctionComponent:
-			// 	// if (rootHostNode === null) {
-			// 	// 	rootHostNode = unmountFiber;
-			// 	// }
-			// 	commitPassiveEffect(unmountFiber, root, 'unmount');
-			// 	return;
+			case FunctionComponent:
+				// if (rootHostNode === null) {
+				// 	rootHostNode = unmountFiber;
+				// }
+				commitPassiveEffect(unmountFiber, root, 'unmount');
+				return;
 			default:
 				if (__DEV__) {
 					console.warn('未处理的unmount类型', unmountFiber);

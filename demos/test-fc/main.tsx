@@ -94,58 +94,58 @@ import ReactDOM from 'react-dom/client';
 // }
 
 // 批处理
-function App() {
-	const [num, setNum] = useState(100);
-
-	return (
-		<div
-			onClickCapture={() => {
-				setNum((n) => n + 1);
-				setNum((n) => n + 1);
-				setNum((n) => n + 1);
-			}}
-		>
-			<div>{num}</div>
-		</div>
-	);
-}
-
-// useEffect 测试用例
 // function App() {
-// 	const [num, updateNum] = useState(0);
+// 	const [num, setNum] = useState(100);
 
-// 	useEffect(() => {
-// 		console.log('app mount');
-// 	}, []);
-
-// 	useEffect(() => {
-// 		console.log('num change create', num);
-// 		return () => {
-// 			console.log('num change destroy', num);
-// 		};
-// 	}, [num]);
 // 	return (
 // 		<div
-// 			onClick={() => {
-// 				updateNum(num + 1);
+// 			onClickCapture={() => {
+// 				setNum((n) => n + 1);
+// 				setNum((n) => n + 1);
+// 				setNum((n) => n + 1);
 // 			}}
 // 		>
-// 			{num === 0 ? <Child></Child> : 'noop'}
+// 			<div>{num}</div>
 // 		</div>
 // 	);
 // }
 
-// function Child() {
-// 	useEffect(() => {
-// 		console.log('child mount');
+// useEffect 测试用例
+function App() {
+	const [num, updateNum] = useState(0);
 
-// 		return () => {
-// 			console.log('child unmount');
-// 		};
-// 	}, []);
+	useEffect(() => {
+		console.log('app mount');
+	}, []);
 
-// 	return ' i am child';
-// }
+	useEffect(() => {
+		console.log('num change create', num);
+		return () => {
+			console.log('num change destroy', num);
+		};
+	}, [num]);
+	return (
+		<div
+			onClick={() => {
+				updateNum(num + 1);
+			}}
+		>
+			{num === 0 ? <Child></Child> : 'noop'}
+		</div>
+	);
+}
+
+function Child() {
+	useEffect(() => {
+		console.log('child mount');
+
+		return () => {
+			console.log('child unmount');
+		};
+	}, []);
+
+	return ' i am child';
+}
 
 // react-noop-renderer
 // function App() {
@@ -221,14 +221,6 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 // 		</div>
 // 	);
 // }
-
-function Child() {
-	return (
-		<div>
-			<span>big-react 1233 child</span>
-		</div>
-	);
-}
 
 // debugger;
 root.render(<App></App>);

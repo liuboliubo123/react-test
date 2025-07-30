@@ -10,6 +10,7 @@ import {
 import { type Flags, NoFlags } from './fiberFlags';
 import { Container } from 'hostConfig';
 import { Lane, Lanes, NoLane, NoLanes } from './fiberLanes';
+import { Effect } from './fiberHooks';
 // import { Lane, Lanes, NoLane, NoLanes } from './fiberLanes';
 // import { Effect } from './fiberHooks';
 
@@ -72,6 +73,11 @@ export class FiberNode {
 	}
 }
 
+export interface PendingPassiveEffects {
+	unmount: Effect[];
+	update: Effect[];
+}
+
 export class FiberRootNode {
 	//  挂载点
 	container: Container;
@@ -84,7 +90,7 @@ export class FiberRootNode {
 	// 本次更新的lane
 	finishedLane: Lane;
 	//
-	// pendingPassiveEffects: PendingPassiveEffects;
+	pendingPassiveEffects: PendingPassiveEffects;
 
 	// callbackNode: CallbackNode | null;
 	// callbackPriority: Lane;
@@ -99,10 +105,10 @@ export class FiberRootNode {
 		// this.callbackNode = null;
 		// this.callbackPriority = NoLane;
 
-		// this.pendingPassiveEffects = {
-		// 	unmount: [],
-		// 	update: []
-		// };
+		this.pendingPassiveEffects = {
+			unmount: [],
+			update: []
+		};
 	}
 }
 
