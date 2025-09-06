@@ -123,11 +123,11 @@
 // unshift() 方法将指定元素添加到数组的开头，并返回数组的新长度。
 
 import {
-	unstable_ImmediatePriority as ImmediatePriority,
-	unstable_UserBlockingPriority as UserBlockingPriority,
-	unstable_NormalPriority as NormalPriority,
-	unstable_LowPriority as LowPriority,
-	unstable_IdlePriority as IdlePriority,
+	unstable_ImmediatePriority as ImmediatePriority, // 同步优先级 1
+	unstable_UserBlockingPriority as UserBlockingPriority, // 用户优先级, 比如点击事件 2
+	unstable_NormalPriority as NormalPriority, // 正常优先级 3
+	unstable_LowPriority as LowPriority, // 低优先级 4
+	unstable_IdlePriority as IdlePriority, // 低优先级 5
 	unstable_scheduleCallback as scheduleCallback,
 	unstable_shouldYield as shouldYield,
 	CallbackNode,
@@ -193,6 +193,8 @@ function schedule() {
 	}
 	// 更高优先级的work
 	cbNode && cancelCallback(cbNode);
+	// scheduleCallback 就是一个宏任务执行器, 可以类比settimeout
+	// 返回一个带时间戳和优先级的对象
 	curCallback = scheduleCallback(curPriority, perform.bind(null, curWork));
 	// if (curWork) {
 	// 	perform(curWork);
@@ -206,6 +208,8 @@ function perform(work: Work, didTimeout?: boolean) {
 	 * 3. 时间切片
 	 */
 	const needSync = work.priority === ImmediatePriority || didTimeout;
+	// shouldYield 代表浏览器有没有空闲时间
+	// 时间切片 5ms
 	while ((needSync || !shouldYield()) && work.count) {
 		work.count--;
 		insertSpan(work.priority + '');
@@ -222,6 +226,7 @@ function perform(work: Work, didTimeout?: boolean) {
 	const prevCallback = curCallback;
 	schedule();
 	const newCallback = curCallback;
+	// 如果当前任务依然和上一次的任务优先级一致,则继续执行任务
 	if (newCallback && prevCallback === newCallback) {
 		return perform.bind(null, work);
 	}
